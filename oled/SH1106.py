@@ -1,4 +1,4 @@
-import config
+import oled.config
 import RPi.GPIO as GPIO
 import time
 import numpy as np
