@@ -36,7 +36,7 @@ class SH1106(object):
         # for hex_cmd in self.init_commands:
         #     self.command(hex_cmd)
         #     time.sleep(0.1)
-        if (config.module_init() != 0):
+        if (self.OLED.module_init() != 0):
             return -1
         """Initialize display"""    
         self.reset()
