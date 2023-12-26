@@ -1,9 +1,6 @@
-import oled.config as config
+from oled.config import Config
 import RPi.GPIO as GPIO
 import time
-
-Device_SPI = config.Device_SPI
-Device_I2C = config.Device_I2C
 
 
 class SH1106(object):
@@ -12,10 +9,10 @@ class SH1106(object):
         self.width = LCD_WIDTH
         self.height = LCD_HEIGHT
         #Initialize DC RST pin
-        self._dc = config.DC_PIN
-        self._rst = config.RST_PIN
-        self._bl = config.BL_PIN
-        self.Device = config.Device
+        self.OLED = Config()
+        self._dc = self.OLED.DC_PIN
+        self._rst = self.OLED.RST_PIN
+        self._bl = self.OLED.BL_PIN
         self.init_commands = [0xAE, 0x02, 0x10, 0x40, 0x81, 0xA0, 0xC0, 0xA6, 0xA8,
                               0x3F, 0xD3, 0x00, 0xd5, 0x80, 0xD9, 0xF1, 0xDA, 0x12,
                               0xDB, 0x40, 0x20, 0x02, 0xA4, 0xA6, 0xAF]
@@ -23,15 +20,15 @@ class SH1106(object):
 
     """    Write register address and data     """
     def command(self, cmd):
-        if(self.Device == Device_SPI):
+        if self.OLED.Device_SPI:
             GPIO.output(self._dc, GPIO.LOW)
-            config.spi_writebyte([cmd])
+            self.OLED.spi_writebyte([cmd])
         else:
-            config.i2c_writebyte(0x00, cmd)
+            self.OLED.i2c_writebyte(0x00, cmd)
 
     def Init(self):
 
-        result = config.module_init()
+        result = self.OLED.module_init()
         if result != 0:
             return False
             
@@ -79,13 +76,13 @@ class SH1106(object):
             self.command(0x02); 
             self.command(0x10); 
 
-            if(self.Device == Device_SPI):
+            if self.OLED.Device_SPI:
                 GPIO.output(self._dc, GPIO.HIGH);
             for i in range(0,self.width):
-                if(self.Device == Device_SPI):
-                    config.spi_writebyte([~pBuf[i+self.width*page]]); 
+                if self.OLED.Device_SPI:
+                    self.OLED.spi_writebyte([~pBuf[i+self.width*page]]); 
                 else :
-                    config.i2c_writebyte(0x40, ~pBuf[i+self.width*page])
+                    self.OLED.i2c_writebyte(0x40, ~pBuf[i+self.width*page])
 
 
     def clear(self):
