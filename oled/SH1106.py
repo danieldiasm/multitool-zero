@@ -14,7 +14,7 @@ class SH1106(object):
         self._bl = self.OLED.BL_PIN
         self.init_commands = [0xAE, 0x02, 0x10, 0x40, 0x81, 0xA0, 0xC0, 0xA6, 0xA8,
                               0x3F, 0xD3, 0x00, 0xd5, 0x80, 0xD9, 0xF1, 0xDA, 0x12,
-                              0xDB, 0x40, 0x20, 0x02, 0xA4, 0xA6, 0xAF]
+                              0xDB, 0x40, 0x20, 0x02, 0xA4, 0xA6]
 
 
     """    Write register address and data     """
@@ -25,47 +25,20 @@ class SH1106(object):
         else:
             self.OLED.i2c_writebyte(0x00, cmd)
 
+
     def Init(self):
 
-        # result = self.OLED.module_init()
-        # if result != 0:
-        #     return False
-            
-        # self.reset()
-        
-        # for hex_cmd in self.init_commands:
-        #     self.command(hex_cmd)
-        #     time.sleep(0.1)
         if (self.OLED.module_init() != 0):
             return -1
-        """Initialize display"""    
+
         self.reset()
-        self.command(0xAE);#--turn off oled panel
-        self.command(0x02);#---set low column address
-        self.command(0x10);#---set high column address
-        self.command(0x40);#--set start line address  Set Mapping RAM Display Start Line (0x00~0x3F)
-        self.command(0x81);#--set contrast control register
-        self.command(0xA0);#--Set SEG/Column Mapping     
-        self.command(0xC0);#Set COM/Row Scan Direction   
-        self.command(0xA6);#--set normal display
-        self.command(0xA8);#--set multiplex ratio(1 to 64)
-        self.command(0x3F);#--1/64 duty
-        self.command(0xD3);#-set display offset    Shift Mapping RAM Counter (0x00~0x3F)
-        self.command(0x00);#-not offset
-        self.command(0xd5);#--set display clock divide ratio/oscillator frequency
-        self.command(0x80);#--set divide ratio, Set Clock as 100 Frames/Sec
-        self.command(0xD9);#--set pre-charge period
-        self.command(0xF1);#Set Pre-Charge as 15 Clocks & Discharge as 1 Clock
-        self.command(0xDA);#--set com pins hardware configuration
-        self.command(0x12);
-        self.command(0xDB);#--set vcomh
-        self.command(0x40);#Set VCOM Deselect Level
-        self.command(0x20);#-Set Page Addressing Mode (0x00/0x01/0x02)
-        self.command(0x02);#
-        self.command(0xA4);# Disable Entire Display On (0xa4/0xa5)
-        self.command(0xA6);# Disable Inverse Display On (0xa6/a7) 
+        
+        for hex_cmd in self.init_commands:
+            self.command(hex_cmd)
         time.sleep(0.1)
         self.command(0xAF);#--turn on oled panel
+        
+        """Initialize display"""    
         
    
     def reset(self):
