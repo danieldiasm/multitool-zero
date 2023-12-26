@@ -14,6 +14,7 @@ class UI(object):
         self.display = SH1106()
         self.splash_img = splash_img
         Initialize_Display()
+        print("DISPLAY READY")
 
 
     def show_splash(self):
