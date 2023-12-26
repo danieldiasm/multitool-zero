@@ -29,7 +29,7 @@ class UI(object):
 
 
     def show_message(self):
-        image1 = Image.new('1', (self.display.width, self.display.heightt), "WHITE")
+        image1 = Image.new('1', (self.display.width, self.display.height), "WHITE")
         draw = ImageDraw.Draw(image1)
         font = ImageFont.truetype('Font.ttf', 20)
         font10 = ImageFont.truetype('Font.ttf',13)
