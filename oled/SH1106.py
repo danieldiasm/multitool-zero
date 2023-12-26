@@ -1,12 +1,13 @@
 import oled.config as config
 import RPi.GPIO as GPIO
 import time
-import numpy as np
 
 Device_SPI = config.Device_SPI
 Device_I2C = config.Device_I2C
 
+
 class SH1106(object):
+
     def __init__(self, LCD_WIDTH:int = 128, LCD_HEIGHT:int = 64):
         self.width = LCD_WIDTH
         self.height = LCD_HEIGHT
@@ -29,12 +30,10 @@ class SH1106(object):
             config.i2c_writebyte(0x00, cmd)
 
     def Init(self):
-        try:
-            result = config.module_init()
-            if result is not None:
-                return result
-        except Exception as e:
-            raise Exception(e)
+
+        result = config.module_init()
+        if result is not 0:
+            return False
             
         self.reset()
         
@@ -51,7 +50,8 @@ class SH1106(object):
         time.sleep(0.1)
         GPIO.output(self._rst,GPIO.HIGH)
         time.sleep(0.1)
-    
+
+
     def getbuffer(self, image):
         buf = [0xFF] * ((self.width//8) * self.height)
         image_monocolor = image.convert('1')
@@ -71,7 +71,8 @@ class SH1106(object):
                     if pixels[x, y] == 0:
                         buf[(newx + (newy // 8 )*self.width) ] &= ~(1 << (y % 8))
         return buf
-            
+
+
     def ShowImage(self, pBuf):
         for page in range(0,8):
             self.command(0xB0 + page);
@@ -85,6 +86,7 @@ class SH1106(object):
                     config.spi_writebyte([~pBuf[i+self.width*page]]); 
                 else :
                     config.i2c_writebyte(0x40, ~pBuf[i+self.width*page])
+
 
     def clear(self):
         """Clear contents of image buffer"""
