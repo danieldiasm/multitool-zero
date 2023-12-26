@@ -32,7 +32,7 @@ import time
 from smbus import SMBus
 import spidev
 
-class Config(object):
+class OLED_Config(object):
 
     def __init__(self, Device_SPI:int = 1, Device_I2C:int = 0) -> None:
         # TODO Make the pins to be in a dictionary

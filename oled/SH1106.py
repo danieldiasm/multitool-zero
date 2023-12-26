@@ -1,4 +1,4 @@
-from oled.config import Config
+from oled.config import OLED_Config
 import RPi.GPIO as GPIO
 import time
 
@@ -8,8 +8,7 @@ class SH1106(object):
     def __init__(self, LCD_WIDTH:int = 128, LCD_HEIGHT:int = 64):
         self.width = LCD_WIDTH
         self.height = LCD_HEIGHT
-        #Initialize DC RST pin
-        self.OLED = Config()
+        self.OLED = OLED_Config()
         self._dc = self.OLED.DC_PIN
         self._rst = self.OLED.RST_PIN
         self._bl = self.OLED.BL_PIN
