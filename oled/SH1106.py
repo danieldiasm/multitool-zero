@@ -32,6 +32,7 @@ class SH1106(object):
             config.i2c_writebyte(0x00, cmd)
 
     def Init(self):
+        self.reset()
         if (config.module_init() != 0):
             return False
             
