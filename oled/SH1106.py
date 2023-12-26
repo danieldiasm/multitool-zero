@@ -32,7 +32,7 @@ class SH1106(object):
     def Init(self):
 
         result = config.module_init()
-        if result is not 0:
+        if result != 0:
             return False
             
         self.reset()
