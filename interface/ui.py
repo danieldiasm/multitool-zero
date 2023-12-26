@@ -3,7 +3,7 @@ from PIL import Image,ImageDraw,ImageFont
 
 class UI(object):
 
-    def __init__(self, display:SH1106 = SH1106(), splash_img: str = None) -> None:
+    def __init__(self, display:SH1106() = SH1106(), splash_img: str = None) -> None:
         def Initialize_Display():
             try:
                 self.display.Init()

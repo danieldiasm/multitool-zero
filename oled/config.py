@@ -73,24 +73,22 @@ def i2c_writebyte(reg, value):
 
 
 def module_init():
-    try:
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
-        GPIO.setup(RST_PIN, GPIO.OUT)
-        GPIO.setup(DC_PIN, GPIO.OUT)
-        GPIO.setup(CS_PIN, GPIO.OUT)
-        GPIO.setup(BL_PIN, GPIO.OUT)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(RST_PIN, GPIO.OUT)
+    GPIO.setup(DC_PIN, GPIO.OUT)
+    GPIO.setup(CS_PIN, GPIO.OUT)
+    GPIO.setup(BL_PIN, GPIO.OUT)
 
-        if(Device == Device_SPI):
-            spi.max_speed_hz = 10000000
-            spi.mode = 0b00
-        
-        GPIO.output(CS_PIN, 0)
-        GPIO.output(BL_PIN, 1)
-        GPIO.output(DC_PIN, 0)
-        return 0
-    except Exception as e:
-        raise Exception(e)
+    if(Device == Device_SPI):
+        spi.max_speed_hz = 10000000
+        spi.mode = 0b00
+    
+    GPIO.output(CS_PIN, 0)
+    GPIO.output(BL_PIN, 1)
+    GPIO.output(DC_PIN, 0)
+    return 0
+
 
 def module_exit():
     if(Device == Device_SPI):
