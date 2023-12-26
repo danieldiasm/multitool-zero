@@ -77,7 +77,6 @@ class SH1106(object):
             self.command(0xB0 + page);
             self.command(0x02); 
             self.command(0x10); 
-
             if self.OLED.Device_SPI:
                 GPIO.output(self._dc, GPIO.HIGH);
             for i in range(0,self.width):
@@ -89,6 +88,6 @@ class SH1106(object):
 
     def clear(self):
         """Clear contents of image buffer"""
-        _buffer = [0xff]*(self.width * self.height//8)
+        _buffer = [0xFF]*(self.width * self.height//8)
         self.ShowImage(_buffer) 
     

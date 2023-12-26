@@ -18,6 +18,7 @@ class UI(object):
 
 
     def show_splash(self):
+        self.clear_screen()
         try:
             splash_image = Image.new('1', (self.display.width, self.display.height), 255)
             splash_bmp = Image.open(self.splash_img)
@@ -28,8 +29,11 @@ class UI(object):
 
 
     def show_message(self):
-        pass
-
+        image1 = Image.new('1', (disp.width, disp.height), "WHITE")
+        draw = ImageDraw.Draw(image1)
+        draw.text((30,0), 'Waveshare ', font = font10, fill = 0)
+        draw.text((28,20), u'微雪电子 ', font = font, fill = 0)
+        self.display.ShowImage(self.display.getbuffer(image1))
 
     def show_menu(self):
         pass

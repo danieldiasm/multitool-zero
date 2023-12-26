@@ -11,5 +11,9 @@ display_ui.show_splash()
 for i in range(0,3):
     print(i+1)
     sleep(1)
+display_ui.show_message()
+for i in range(0,3):
+    print(i+1)
+    sleep(1)
 
 display_ui.clear_screen()
