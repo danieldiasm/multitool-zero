@@ -35,10 +35,12 @@ import spidev
 class Config(object):
 
     def __init__(self, Device_SPI:int = 1, Device_I2C:int = 0) -> None:
+        # TODO Make the pins to be in a dictionary
         self.RST_PIN = 25
         self.DC_PIN  = 24
         self.CS_PIN  = 8
         self.BL_PIN  = 18
+        # TODO Reduce those two variables to one
         self.Device_SPI = Device_SPI
         self.Device_I2C = Device_I2C
 
