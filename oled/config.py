@@ -90,7 +90,7 @@ def module_init():
         GPIO.output(DC_PIN, 0)
         return 0
     except Exception as e:
-        return e
+        raise Exception(e)
 
 def module_exit():
     if(Device == Device_SPI):

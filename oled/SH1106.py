@@ -37,7 +37,7 @@ class SH1106(object):
             if result is not None:
                 return result
         except Exception as e:
-            return e
+            raise Exception(e)
             
         self.reset()
         
