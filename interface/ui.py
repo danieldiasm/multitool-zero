@@ -5,8 +5,10 @@ class UI(object):
 
     def __init__(self, display:SH1106 = SH1106(), splash_img: str = None) -> None:
         def Initialize_Display():
-            if not self.display.Init():
-                raise RuntimeError("Init Display Failed!")
+            try:
+                self.display.Init():
+            except Exception as e:
+                raise Exception(e)
             self.display.clear()
    
         self.display = display
