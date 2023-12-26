@@ -32,68 +32,69 @@ import time
 from smbus import SMBus
 import spidev
 
-import ctypes
+class Config(object):
 
-# Pin definition
-RST_PIN         = 25
-DC_PIN          = 24
-CS_PIN          = 8
-BL_PIN          = 18
+    def __init__(self, Device_SPI:int = 1, Device_I2C:int = 0) -> None:
+        self.RST_PIN = 25
+        self.DC_PIN  = 24
+        self.CS_PIN  = 8
+        self.BL_PIN  = 18
+        self.Device_SPI = Device_SPI
+        self.Device_I2C = Device_I2C
 
-Device_SPI = 1
-Device_I2C = 0
-
-if(Device_SPI == 1):
-    Device = Device_SPI
-    spi = spidev.SpiDev(0, 0)
-else :
-    Device = Device_I2C
-    address = 0x3C
-    bus = SMBus(1)
-
-
-def digital_write(pin, value):
-    GPIO.output(pin, value)
+        if(self.Device_SPI == 1):
+            self.Device = self.Device_SPI
+            self.spi = spidev.SpiDev(0, 0)
+        else :
+            self.Device = self.Device_I2C
+            self.address = 0x3C
+            self.bus = SMBus(1)
 
 
-def digital_read(pin):
-    return GPIO.input(BUSY_PIN)
+    @staticmethod
+    def digital_write(pin, value):
+        GPIO.output(pin, value)
 
 
-def delay_ms(delaytime):
-    time.sleep(delaytime / 1000.0)
+    @staticmethod
+    def digital_read(pin):
+        return GPIO.input(pin)
 
 
-def spi_writebyte(data):
-    spi.writebytes([data[0]])
+    def delay_ms(self,delaytime):
+        time.sleep(delaytime / 1000.0)
 
 
-def i2c_writebyte(reg, value):
-    bus.write_byte_data(address, reg, value)
+    def spi_writebyte(self, data):
+        self.spi.writebytes([data[0]])
 
 
-def module_init():
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
-    GPIO.setup(RST_PIN, GPIO.OUT)
-    GPIO.setup(DC_PIN, GPIO.OUT)
-    GPIO.setup(CS_PIN, GPIO.OUT)
-    GPIO.setup(BL_PIN, GPIO.OUT)
-
-    if(Device == Device_SPI):
-        spi.max_speed_hz = 10000000
-        spi.mode = 0b00
-    
-    GPIO.output(CS_PIN, 0)
-    GPIO.output(BL_PIN, 1)
-    GPIO.output(DC_PIN, 0)
-    return 0
+    def i2c_writebyte(self, reg, value):
+        self.bus.write_byte_data(self.address, reg, value)
 
 
-def module_exit():
-    if(Device == Device_SPI):
-        spi.SYSFS_software_spi_end()
-    else :
-        bus.close()
-    GPIO.output(RST_PIN, 0)
-    GPIO.output(DC_PIN, 0)
+    def module_init(self):
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(self.RST_PIN, GPIO.OUT)
+        GPIO.setup(self.DC_PIN, GPIO.OUT)
+        GPIO.setup(self.CS_PIN, GPIO.OUT)
+        GPIO.setup(self.BL_PIN, GPIO.OUT)
+
+        if(self.Device == self.Device_SPI):
+            self.spi.max_speed_hz = 10000000
+            self.spi.mode = 0b00
+        
+        GPIO.output(self.CS_PIN, 0)
+        GPIO.output(self.BL_PIN, 1)
+        GPIO.output(self.DC_PIN, 0)
+        return 0
+
+
+    def module_exit(self):
+        if(self.Device == self.Device_SPI):
+            self.spi.SYSFS_software_spi_end()
+        else :
+            self.bus.close()
+        GPIO.output(self.RST_PIN, 0)
+        GPIO.output(self.DC_PIN, 0)
