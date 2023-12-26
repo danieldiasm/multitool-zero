@@ -18,9 +18,9 @@ class SH1106(object):
         self._rst = config.RST_PIN
         self._bl = config.BL_PIN
         self.Device = config.Device
-        self.disp_init_commands = [0xAE, 0x02, 0x10, 0x40, 0x81, 0xA0, 0xC0, 0xA6, 0xA8,
-                                   0x3F, 0xD3, 0x00, 0xd5, 0x80, 0xD9, 0xF1, 0xDA, 0x12,
-                                   0xDB, 0x40, 0x20, 0x02, 0xA4, 0xA6]
+        self.init_commands = [0xAE, 0x02, 0x10, 0x40, 0x81, 0xA0, 0xC0, 0xA6, 0xA8,
+                              0x3F, 0xD3, 0x00, 0xd5, 0x80, 0xD9, 0xF1, 0xDA, 0x12,
+                              0xDB, 0x40, 0x20, 0x02, 0xA4, 0xA6]
 
 
     """    Write register address and data     """
@@ -32,13 +32,12 @@ class SH1106(object):
             config.i2c_writebyte(0x00, cmd)
 
     def Init(self):
-        self.reset()
         if (config.module_init() != 0):
             return False
             
         self.reset()
         
-        for hex_cmd in self.disp_init_commands:
+        for hex_cmd in self.init_commands:
             self.command(hex_cmd)
             time.sleep(0.1)
         

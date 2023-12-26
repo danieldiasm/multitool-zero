@@ -48,7 +48,7 @@ if(Device_SPI == 1):
     spi = spidev.SpiDev(0, 0)
 else :
     Device = Device_I2C
-    address         = 0x3C
+    address = 0x3C
     bus = SMBus(1)
 
 
