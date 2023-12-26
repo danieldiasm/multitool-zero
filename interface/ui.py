@@ -15,7 +15,7 @@ class UI(object):
 
     def show_splash(self):
         splash_image = Image.new('1', (self.display.width, self.display.height), 255)
-        splash_bmp = Image.open(splash_image)
+        splash_bmp = Image.open(self.splash_img)
         splash_image.paste(splash_bmp, (0,5))
         self.display.ShowImage(self.display.getbuffer(splash_bmp))
 
