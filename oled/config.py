@@ -31,18 +31,22 @@ import RPi.GPIO as GPIO
 import time
 from smbus import SMBus
 import spidev
+import configparser
+
+#TODO Add docstrings to class and methods
 
 class OLED_Config(object):
 
-    def __init__(self, Device_SPI:int = 1, Device_I2C:int = 0) -> None:
-        # TODO Make the pins to be in a dictionary
-        self.RST_PIN = 25
-        self.DC_PIN  = 24
-        self.CS_PIN  = 8
-        self.BL_PIN  = 18
+    def __init__(self) -> None:
+        OLED_Conf = configparser.ConfigParser()
+        OLED_Conf.read('../config_files/oled_config.ini')
+        self.RST_PIN = OLED_Conf['OLED.HW.CONF']['RST_PIN']
+        self.DC_PIN  = OLED_Conf['OLED.HW.CONF']['DC_PIN']
+        self.CS_PIN  = OLED_Conf['OLED.HW.CONF']['CS_PIN']
+        self.BL_PIN  = OLED_Conf['OLED.HW.CONF']['BL_PIN']
         # TODO Reduce those two variables to one
-        self.Device_SPI = Device_SPI
-        self.Device_I2C = Device_I2C
+        self.Device_SPI = OLED_Conf['OLED.INTER.TYPE']['SPI']
+        self.Device_I2C = OLED_Conf['OLED.INTER.TYPE']['I2C']
 
         if(self.Device_SPI == 1):
             self.Device = self.Device_SPI
