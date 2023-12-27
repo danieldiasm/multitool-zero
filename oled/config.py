@@ -39,16 +39,16 @@ class OLED_Config(object):
 
     def __init__(self) -> None:
         OLED_Conf = configparser.ConfigParser()
-        OLED_Conf.read('../config_files/oled_config.ini')
-        self.RST_PIN = OLED_Conf['OLED.HW.CONF']['RST_PIN']
-        self.DC_PIN  = OLED_Conf['OLED.HW.CONF']['DC_PIN']
-        self.CS_PIN  = OLED_Conf['OLED.HW.CONF']['CS_PIN']
-        self.BL_PIN  = OLED_Conf['OLED.HW.CONF']['BL_PIN']
+        OLED_Conf.read('./config_files/oled_config.ini')
+        self.RST_PIN = int(OLED_Conf['OLED.HW.CONF']['RST_PIN'])
+        self.DC_PIN  = int(OLED_Conf['OLED.HW.CONF']['DC_PIN'])
+        self.CS_PIN  = int(OLED_Conf['OLED.HW.CONF']['CS_PIN'])
+        self.BL_PIN  = int(OLED_Conf['OLED.HW.CONF']['BL_PIN'])
         # TODO Reduce those two variables to one
-        self.Device_SPI = OLED_Conf['OLED.INTER.TYPE']['SPI']
-        self.Device_I2C = OLED_Conf['OLED.INTER.TYPE']['I2C']
+        self.Device_SPI = bool(OLED_Conf['OLED.INTER.TYPE']['SPI'])
+        self.Device_I2C = bool(OLED_Conf['OLED.INTER.TYPE']['I2C'])
 
-        if(self.Device_SPI == 1):
+        if(self.Device_SPI == True):
             self.Device = self.Device_SPI
             self.spi = spidev.SpiDev(0, 0)
         else :
