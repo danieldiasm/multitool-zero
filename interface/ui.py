@@ -14,7 +14,6 @@ class UI(object):
         self.display = SH1106()
         self.splash_img = splash_img
         Initialize_Display()
-        print("DISPLAY READY")
 
 
     def show_splash(self):
@@ -34,7 +33,7 @@ class UI(object):
         font = ImageFont.truetype('Font.ttf', 20)
         font10 = ImageFont.truetype('Font.ttf',13)
         draw.text((30,0), 'Waveshare ', font = font10, fill = 0)
-        draw.text((28,20), u'微雪电子 ', font = font, fill = 0)
+        draw.text((30,20), 'Display ', font = font, fill = 0)
         self.display.ShowImage(self.display.getbuffer(image1))
 
     def show_menu(self):

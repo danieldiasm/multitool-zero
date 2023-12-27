@@ -2,6 +2,7 @@ from oled.config import OLED_Config
 import RPi.GPIO as GPIO
 import time
 
+# TODO many configs can be set via INI file
 
 class SH1106(object):
 
@@ -17,8 +18,8 @@ class SH1106(object):
                               0xDB, 0x40, 0x20, 0x02, 0xA4, 0xA6]
 
 
-    """    Write register address and data     """
     def command(self, cmd):
+        """Write register address and data"""
         if self.OLED.Device_SPI:
             GPIO.output(self._dc, GPIO.LOW)
             self.OLED.spi_writebyte([cmd])
@@ -27,7 +28,7 @@ class SH1106(object):
 
 
     def Init(self):
-
+        """Initialize display"""
         if (self.OLED.module_init() != 0):
             return -1
 
@@ -36,9 +37,7 @@ class SH1106(object):
         for hex_cmd in self.init_commands:
             self.command(hex_cmd)
         time.sleep(0.1)
-        self.command(0xAF);#--turn on oled panel
-        
-        """Initialize display"""    
+        self.command(0xAF);#--turn on oled panel    
         
    
     def reset(self):
